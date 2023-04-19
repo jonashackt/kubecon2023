@@ -265,12 +265,20 @@ eBPF in GitHub Actions didn't work - so they created tracee:
 
 > because production time is different than build time
 
+![](tracee-forensics-events-overview.png)
+
 -> build time is predictable: clone, build, test, deploy etc.
 
 
 GitHub Actions for starting and stopping tracing in the CI/CD process
 
+![](tracee-github-actions-integration.png)
+
 ![](ebpf-tracee-tracing-scope-cicd.png)
+
+Policies look like this:
+
+![](tracee-container-build-policy.png)
 
 
 # Experience with “Hard Multi-Tenancy” in Kubernetes Using Kata Containers - Shuo Chen, Databricks
