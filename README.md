@@ -3,6 +3,15 @@ Just some notes on KubeCon 2023
 
 ![](kubecon2023.png)
 
+# Interesting topics in general
+
+* https://katacontainers.io (isolated containers)
+* MicroVMs and weaveworks liquidmetal
+* Crossplane with ArgoCD and vcluster (k8s in k8s)
+* WebAssembly/WASM with Spin or/and with Kubernetes
+* eBPF
+
+
 
 # A CI/CD Platform in the Palm of Your Hand - Claudia Beresford, Weaveworks
 
