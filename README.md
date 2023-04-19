@@ -254,3 +254,74 @@ Spin scaffold will create Dockerfile with your registry:
 ```shell
 spin k8s scaffold ghcr.io/my-registry  && spin k8s build
 ```
+
+
+
+# Verifiable GitHub Actions with eBPF - Jose Donizetti, Aqua
+
+https://github.com/aquasecurity/tracee
+
+eBPF in GitHub Actions didn't work - so they created tracee:
+
+> because production time is different than build time
+
+-> build time is predictable: clone, build, test, deploy etc.
+
+
+GitHub Actions for starting and stopping tracing in the CI/CD process
+
+![](ebpf-tracee-tracing-scope-cicd.png)
+
+
+# Experience with “Hard Multi-Tenancy” in Kubernetes Using Kata Containers - Shuo Chen, Databricks
+
+VM-isolation instead of Container isolation :)
+
+![](kata-containers-architecture.png)
+
+
+dedicated CPU, storage, dedicated kernel, K8s networking - container network policies
+
+![](kata-container-isolation.png)
+
+![](kata-container-isolation-network.png)
+
+
+Special RuntimeClass `kata-qemu`:
+
+![](kata-container-runtime.png)
+
+
+### Cons and how to handle them
+
+**Performance!**
+
+3-6x slower
+
+--> because Kata introduces another abstraction layer!
+
+![](kata-container-performance-problem.png)
+
+How to handle performance:
+
+* local SSDs instead of CloudProvider default
+* SPDK (storage performance development kit) + Kata Direct Volumes
+--> develop own CSI at Databricks + Kata Virtual Block device
+
+* CPU isolation, CPU pinning and CPU state tuning:
+
+![](kata-container-cpu-tuning.png)
+
+* NUMA (non uniform memory access): prevent Kata VM using cross NUMA resources
+* autobalancing load for different NUMA nodes on same host
+--> done with NUMA control
+
+
+### Other Cons
+
+* more infrastructure resources needed than vanilla k8s
+--> need to allocate additional Kata Container overhead
+* GPU-load not really great for Kata
+
+
+
