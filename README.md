@@ -390,6 +390,8 @@ Check ArgoCD with Prometheus if using big deployments
 
 # Tips from the Trenches: GitOps at Adobe - Larisa Andreea Danaila & Ionut-Maxim Margelatu, Adobe
 
+https://kubecon-cloudnativecon-europe.com/session-virtual/?v2477da705118cc74fd14460db021e1784e2eed5a7982c6482ec95cb2e86d259644b8741959f52a49e0e6908b82a9d860=2016E10153E8DDF8D4AFD910808FF61044396EA6C3381AB756ED4A6AE9CD1DF89D9DAD1DF17CED47C6201172D587F6E7
+
 ![](gitops-adobe-journey.png)
 
 ![](gitops-adobe-environment-config-part-of-app-repo.png)
@@ -473,3 +475,22 @@ Full CI/CD overview
 Summary
 
 ![](adobe-summary.png)
+
+
+
+# Unlocking the Potential of KEDA: New Features and Best Practices - Jorge Turrado Ferrero, SCRM Lidl International Hub & Zbynek Roubalik, Red Hat
+
+https://kubecon-cloudnativecon-europe.com/session-virtual/?v2477da705118cc74fd14460db021e1784e2eed5a7982c6482ec95cb2e86d259644b8741959f52a49e0e6908b82a9d860=B45791AD389A82A2C2018DD36A4FA69AE22DF977A1B45839F3488C22932C121493398BDDE1ACB2B9C6FF15D89E9D5C9F
+
+Scaling application on vanilla k8s only possible based on CPU and memory.
+
+![](keda-scale-app-based-on-rabbitmq-metrics.png)
+
+
+KEDA allows autoscale deployment resources or jobs based on events (+60 event sources: Prometheus, RabbitMQ, Kafka, SQS, PostGres...)
+
+![](keda-architecture.png)
+
+To use KEDA create a `ScaledObject` (or `ScaledJob`) CRD. These look like:
+
+![](keda-scaledobject.png)
