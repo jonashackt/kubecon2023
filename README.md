@@ -10,7 +10,8 @@ Just some notes on KubeCon 2023
 * Crossplane with ArgoCD and vcluster (k8s in k8s)
 * WebAssembly/WASM with Spin or/and with Kubernetes
 * eBPF
-* https://www.devspace.sh 
+* https://www.devspace.sh - Docker Compose for Kubernetes
+* Kubevela and Open Application Model https://kubevela.io/docs/getting-started/core-concept
 
 
 
@@ -432,6 +433,8 @@ Workflows for Argo (app deployment) and Terraform (infrastructure) is separate -
 ![](workflow-deploying-applications-with-argo-and-infrastructure-with-terraform-is-separated.png)
 
 
+### Adobe uses Crossplane with ArgoCD
+
 
 ![](adobe-unified-approch-app-deployment-and-infrastructure.png)
 
@@ -446,6 +449,35 @@ Adobe uses official Upbound Provider: https://marketplace.upbound.io/providers/u
 They seem to have composite resources in there!!! `dbforpostgresl.azure.upbound.io` :
 
 ![](adobe-crossplane-postgres-azure-upbound-provider.png)
+
+https://marketplace.upbound.io/providers/upbound/provider-azure/v0.5.1/resources/dbforpostgresql.azure.upbound.io/FlexibleServer/v1beta1
+
+> Direct usage of Managed Resources is an antipattern!
+
+```yaml
+apiVersion: dbforpostgresql.azure.upbound.io/v1beta1
+kind: FlexibleServer
+metadata:
+  name: example-flexible-psqlserver
+spec:
+  forProvider:
+    administratorLogin: psqladminun
+    administratorPasswordSecretRef:
+      key: password
+      name: psql-password
+      namespace: crossplane-system
+    location: East US
+    resourceGroupNameRef:
+      name: example
+    skuName: GP_Standard_D4s_v3
+    storageMb: 32768
+    version: "12"
+  providerConfigRef:
+    name: example
+```
+
+
+
 
 They use Crossplane simply as normal Helm chart part:
 
@@ -559,3 +591,57 @@ you can even plugin your own eventing solution (like Kafka, RabbitMQ, Redis...)
 
 
 ![](knative-summary.png)
+
+
+
+
+# Automating Configuration and Permissions Testing for GitOps with OPA Conftest - Eve Ben Ezra & Michael Hume, The New York Times
+
+https://kubecon-cloudnativecon-europe.com/session-virtual/?v2477da705118cc74fd14460db021e1784e2eed5a7982c6482ec95cb2e86d259644b8741959f52a49e0e6908b82a9d860=20BA2EB7CB288D78F42226BCAAE18BD6B8BF26B6C40BBDB3BD10BD398A5ED69A510796CD64A409BEA6727340921BFF0A
+
+NYTimes Platform Engineering 
+
+![](conftest-argo-pipeline.png)
+
+![](conftest-early-feedback-with-opa-conftest-policies.png)
+
+Use Rego for Conftest. Has it's learning curve!
+
+For example automatic Argo AppProject spec checking.
+
+Demo
+
+https://github.com/ecbenezra/kubecon-eu-2023-conftest
+
+![](conftest-example-rego-policy.png)
+
+
+
+# Tutorial: Deploying Cloud-Native Applications Using Kubevela and OAM - Daniel Higuero, Napptive
+
+https://github.com/napptive/kubecon-23-oam-kubevela-tutorial
+
+https://kubevela.io/docs/getting-started/core-concept
+
+Open Application Model (OAM): High level abstraction for your application (born 2019)
+
+https://oam.dev/
+
+provider agnostic, infrastructure agnostic
+
+![](oam-open-application-model-overview.png)
+
+![](oam-kubernetes-hard-to-learn.png)
+
+OAM / Kubevela creates all basic K8s components automatically (Pods, Deployments, Services, Ingress, Volumes etc.)
+
+
+Kubevela is OAM runtime for k8s - CNCF incubating project
+
+![](oam-kubevela-overview.png)
+
+![](oam-kubevela-reconciler.png)
+
+![](oam-application-crd.png)
+
+Applications have `components`, `traits` (sidecars, logs), `policies` (same as traits, but no need to copy trait to every application), `workflows` (define, how application are deployed)
