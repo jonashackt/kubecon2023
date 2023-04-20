@@ -10,6 +10,7 @@ Just some notes on KubeCon 2023
 * Crossplane with ArgoCD and vcluster (k8s in k8s)
 * WebAssembly/WASM with Spin or/and with Kubernetes
 * eBPF
+* https://www.devspace.sh 
 
 
 
@@ -333,3 +334,54 @@ How to handle performance:
 
 
 
+# Unlocking Argo CD’s Hidden Tools for Chaos Engineering - Featuring VCluster and More - Dan Garfield & Brandon Phillips, Codefresh
+
+> When is one ArgoCD instance not enough anymore?
+
+A ton of tweaks for performance etc. in Argo
+
+![](argocd-when-to-scale.png)
+
+![](argocd-dont-need-to-tweak-before-you-reach-these-numbers.png)
+
+
+https://github.com/argoproj/argo-cd/tree/master/hack/gen-resources
+
+Works with vcluster
+
+![](argocd-gen-resources.png)
+
+Creates clusters, apps, projects and repos
+
+> Sometimes the Kubernetes API is to slow :)
+
+```shell
+# build tool
+go build -o ../argocd-generator
+```
+
+--> Testing ArgoCD instance! This tool uses all example apps from all ArgoCD forks on GitHub
+
+--> ArgoCD (with autopilot?) also deploys vclusters :)))
+
+
+Bootstrap ArgoCD with autopilot
+
+https://argocd-autopilot.readthedocs.io/en/stable/
+
+```
+Argo CD Autopilot saves operators time by:
+
+    Installing and managing the Argo CD application using GitOps.
+    Providing a clear structure for how applications are to be added and updated, all from git.
+    Creating a simple pattern for making updates to applications and promoting those changes across environments.
+    Enabling better disaster recovery by being able to bootstrap new clusters with all the applications previously installed.
+    Handling secrets for Argo CD to prevent them from spilling into plaintext git. (Soon to come)
+
+The Argo-CD Autopilot is a tool which offers an opinionated way of installing Argo-CD and managing GitOps repositories.
+```
+
+Check ArgoCD with Prometheus if using big deployments
+
+
+![](argocd-more-scaling-options.png)
