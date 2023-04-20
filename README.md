@@ -494,3 +494,68 @@ KEDA allows autoscale deployment resources or jobs based on events (+60 event so
 To use KEDA create a `ScaledObject` (or `ScaledJob`) CRD. These look like:
 
 ![](keda-scaledobject.png)
+
+
+
+# Use Knative When You Can, and Kubernetes When You Must - David Hadas & Michael Maximilien, IBM
+
+Michael Maximilien, IBM + David Hadas
+
+https://kubecon-cloudnativecon-europe.com/session-virtual/?v2477da705118cc74fd14460db021e1784e2eed5a7982c6482ec95cb2e86d259644b8741959f52a49e0e6908b82a9d860=39F88A776E774D00DB3B97CD962859EDC0E794A1C8B6DA18228BA45EE595066E1A01E902967B7274893F187A1FD0BD59
+
+
+![](knative-what-is-serverless.png)
+
+Completely dynamic range for resource scaling: From fixed to fully flexible and in between ("I want to have between 1 to 10 containers, but not more - since I won't pay for that"):
+
+![](knative-from-fixed-resources-to-fully-dynamic-resources.png)
+
+What is Knative for?
+
+Twelve Factor Microservices, Serverless Containers and Serverless functions:
+
+![](knative-what-is-it-for.png)
+
+Kubernetes is an absolutely non-opinionated system: you can run anything! That's good - but often times - especially for Microservices - Knative is opinionated!
+
+![](knative-reduces-skills-needed-to-run-kubernetes-apps.png)
+
+Knavite reduces overprovisioning by implementing autoscaling 
+
+![](knative-autoscaling-reduce-overprovisioning.png)
+
+![](knative-idle-resources-vs-suspended-vms.png)
+
+--> Testdrive with load testing on services 
+
+Knative also helps with blue-green & canary deployments
+
+### Knative fosters Security
+
+Knative can even take over TLS and certificate handling! (no Service Mesh needed)
+
+![](knative-security.png)
+
+Check uniform services automatically.
+
+Avoids misconfiguration! --> automatically goes back to configuration in Git
+
+
+Always asume that your Microservice are volnerable - you have to keep an eye on them! Monitor them all the time
+
+
+
+### Limitations of Knative
+
+Non-HTTP-Traffic! Integrate with normal Kubernetes deployments
+
+![](knative-main-limitations.png)
+
+### Build-in Eventing!
+
+![](knative-build-in-eventing-pluggable.png)
+
+you can even plugin your own eventing solution (like Kafka, RabbitMQ, Redis...)
+
+
+![](knative-summary.png)
