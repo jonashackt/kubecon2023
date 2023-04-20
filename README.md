@@ -385,3 +385,91 @@ Check ArgoCD with Prometheus if using big deployments
 
 
 ![](argocd-more-scaling-options.png)
+
+
+
+# Tips from the Trenches: GitOps at Adobe - Larisa Andreea Danaila & Ionut-Maxim Margelatu, Adobe
+
+![](gitops-adobe-journey.png)
+
+![](gitops-adobe-environment-config-part-of-app-repo.png)
+
+![](argo-k8s-preview-deployments-from-prs.png)
+
+`argo sync-wave="-1"` -- deploy Apps before other apps (in a specific order)
+
+
+![](argo-hooks.png)
+
+
+Discussing separation of app and config repository:
+
+![](argo-separate-config-and-app-repo-or-not.png)
+
+There might be situations where it is better to not separate them.
+
+--> adressing the issues of one repo with filters
+
+Using pre-sync-hooks in ArgoCD to first let the source code build, then trigger the deployment
+
+Using umbrella-charts when using Helm instead of copying the k8s manifests
+
+This is what Adobe does:
+
+![](argo-separate-1-app-repo-and-chart-and-2-deploy-repo-with-values.png)
+
+--> separating app repo WITH chart manifest - and the actual staging values as deploy repo for Argo
+
+![](gitops-argo-adobe-ci-pipeline.png)
+
+
+### Really big problem to have app deployment and infrastructure separate @ Adobe
+
+Workflows for Argo (app deployment) and Terraform (infrastructure) is separate - that leads to many problems:
+
+![](workflow-deploying-applications-with-argo-and-infrastructure-with-terraform-is-separated.png)
+
+
+
+![](adobe-unified-approch-app-deployment-and-infrastructure.png)
+
+--> solution using Crossplane also
+
+![](adobe-ci-cd-argo-with-crossplane.png)
+
+
+
+Adobe uses official Upbound Provider: https://marketplace.upbound.io/providers/upbound/provider-azure/v0.5.1
+
+They seem to have composite resources in there!!! `dbforpostgresl.azure.upbound.io` :
+
+![](adobe-crossplane-postgres-azure-upbound-provider.png)
+
+They use Crossplane simply as normal Helm chart part:
+
+![](adobe-crossplane-just-one-of-argo-managed-charts.png)
+
+which is than managed by ArgoCD:
+
+![](adobe-crossplane-just-one-of-argo-managed-resources-that-deploys-postgres.png)
+
+
+There's one problem: Argo thinks a Crossplane resource is green, but thats only the Crossplane pod - not the actual infrastructure (like a database):
+
+![](argdo-crossplane-problem-crossplane-resource-there-but-not-its-deployment.png)
+
+Adobe solved this by creating custom resource health checks for Crossplane in ArgoCD:
+
+![](custom-resource-health-checks-for-crossplane-in-argocd.png)
+
+see https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#custom-health-checks
+
+
+Full CI/CD overview
+
+![](adobe-app-and-infra-part-of-the-same-cicd.png)
+
+
+Summary
+
+![](adobe-summary.png)
